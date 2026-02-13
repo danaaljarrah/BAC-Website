@@ -1,0 +1,732 @@
+<body>
+<!-- Subtle background blobs (pure CSS) -->
+<div class="bg-blobs" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Event Landing Page</title>
+
+    <style>
+
+        /* ============ Base / Theme ============ */
+:root{
+  --bg: #f6f2ee;
+  --card: rgba(255,255,255,0.82);
+  --card-solid: #ffffff;
+  --text: #2c2c2c;
+  --muted: #5c5c5c;
+  --accent: #c87a56;      /* warm */
+  --accent2: #a65c3a;     /* deeper */
+  --line: rgba(40,30,20,0.10);
+  --shadow: 0 12px 35px rgba(0,0,0,0.08);
+  --shadow2: 0 18px 50px rgba(0,0,0,0.10);
+  --radius: 18px;
+}
+
+html { scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: radial-gradient(1200px 700px at 20% -10%, rgba(200,122,86,0.18), transparent 55%),
+              radial-gradient(900px 600px at 100% 20%, rgba(166,92,58,0.14), transparent 50%),
+              var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.page{
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+a { color: inherit; }
+
+/* ============ Background blobs ============ */
+.bg-blobs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.blob{
+  position:absolute;
+  filter: blur(40px);
+  opacity: 0.55;
+  border-radius: 999px;
+  transform: translate3d(0,0,0);
+  animation: floaty 12s ease-in-out infinite;
+}
+.blob-1{ width: 420px; height: 420px; left:-120px; top: 80px; background: rgba(200,122,86,0.35); }
+.blob-2{ width: 520px; height: 520px; right:-180px; top: 260px; background: rgba(166,92,58,0.28); animation-delay: -4s; }
+.blob-3{ width: 380px; height: 380px; left: 20%; bottom:-160px; background: rgba(255,190,140,0.25); animation-delay: -7s; }
+
+@keyframes floaty{
+  0%,100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-18px) translateX(12px); }
+}
+
+/* ============ Top bar ============ */
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(246, 242, 238, 0.65);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner{
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+.brand{ display:flex; align-items:center; gap:10px; font-weight: 700; }
+.brand-mark{
+  width: 34px; height:34px; display:grid; place-items:center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(200,122,86,0.25), rgba(166,92,58,0.18));
+  border: 1px solid rgba(166,92,58,0.18);
+}
+.brand-name{ letter-spacing: 0.2px; }
+
+.nav{ display:flex; gap: 16px; align-items:center; }
+.nav a{
+  text-decoration:none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: rgba(44,44,44,0.85);
+}
+.nav a:hover{ background: rgba(200,122,86,0.12); }
+.nav-cta{
+  background: rgba(200,122,86,0.16);
+  border: 1px solid rgba(166,92,58,0.18);
+}
+
+/* ============ Hero ============ */
+.hero{
+  position: relative;
+  padding: 56px 0 18px;
+  z-index: 1;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.badge{
+  display:inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: rgba(255,255,255,0.65);
+  border: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+.headline{
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.6px;
+  margin: 0 0 14px;
+}
+.headline-accent{
+  color: var(--accent2);
+  text-shadow: 0 10px 35px rgba(166,92,58,0.12);
+}
+.subhead{
+  color: var(--muted);
+  margin: 0 0 22px;
+  font-size: 18px;
+}
+
+.hero-actions{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.stats{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.stat{
+  background: rgba(255,255,255,0.65);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  min-width: 120px;
+}
+.stat-value{ font-size: 22px; font-weight: 800; color: var(--accent2); line-height:1; }
+.stat-label{ font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+/* Hero media */
+.media-card{
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transform: translateZ(0);
+}
+.media-card img{
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display:block;
+}
+.media-caption{
+  display:flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 16px;
+}
+.media-caption span{ color: var(--muted); font-size: 13px; }
+
+/* Floating chips */
+.floating-chip{
+  position:absolute;
+  padding: 10px 12px;
+  font-size: 13px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.70);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.06);
+}
+.chip-1{ right: 12px; top: 96px; animation: bob 5s ease-in-out infinite; }
+.chip-2{ right: 26px; top: 160px; animation: bob 6s ease-in-out infinite; }
+.chip-3{ right: 58px; top: 224px; animation: bob 7s ease-in-out infinite; }
+
+@keyframes bob{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-10px); }
+}
+
+/* ============ Sections / Cards ============ */
+.section{
+  padding: 44px 0;
+  position: relative;
+  z-index: 1;
+}
+.section.alt{
+  background: rgba(255,255,255,0.35);
+  border-top: 1px solid rgba(40,30,20,0.06);
+  border-bottom: 1px solid rgba(40,30,20,0.06);
+  margin: 30px calc(-1 * ((100vw - min(1100px, calc(100% - 48px))) / 2));
+  padding-left: calc((100vw - min(1100px, calc(100% - 48px))) / 2);
+  padding-right: calc((100vw - min(1100px, calc(100% - 48px))) / 2);
+}
+.section-head h2{
+  margin: 0 0 10px;
+  font-size: 28px;
+  letter-spacing: -0.2px;
+}
+.section-head p{
+  margin: 0 0 20px;
+  color: var(--muted);
+  max-width: 70ch;
+}
+
+.card{
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  padding: 18px;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--shadow2);
+}
+
+.card.small{ padding: 16px; }
+.card.medium{ padding: 22px; }
+.card.large{ padding: 26px; }
+.card.note{ padding: 20px; }
+.card.register{
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(166,92,58,0.18);
+  box-shadow: 0 18px 60px rgba(166,92,58,0.12);
+}
+
+.tags{ display:flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.tag{
+  font-size: 13px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(200,122,86,0.12);
+  border: 1px solid rgba(166,92,58,0.16);
+}
+
+.two-col{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.image-frame{
+  position: relative;
+  border-radius: var(--radius);
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  min-height: 320px;
+}
+.image-frame img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+  transform: scale(1.03);
+  transition: transform 400ms ease;
+}
+.image-frame:hover img{ transform: scale(1.07); }
+
+.image-overlay{
+  position:absolute;
+  inset: auto 12px 12px 12px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 14px;
+  padding: 12px 14px;
+  backdrop-filter: blur(10px);
+}
+.overlay-title{ font-weight: 800; color: var(--accent2); }
+.overlay-subtitle{ font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+.feature-grid{
+  display:grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: start;
+}
+.feature-top{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.pill{
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(166,92,58,0.10);
+  border: 1px solid rgba(166,92,58,0.14);
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+.mini-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+.mini{
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.60);
+  border: 1px solid rgba(40,30,20,0.08);
+}
+.mini-title{ font-weight: 800; font-size: 13px; color: var(--accent2); }
+.mini-text{ font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+.stack{ display:flex; flex-direction: column; gap: 12px; }
+.hover-sheen{ position: relative; overflow: hidden; }
+.hover-sheen::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: translateX(-60%) rotate(12deg);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.hover-sheen:hover::after{
+  opacity: 1;
+  animation: sheen 900ms ease forwards;
+}
+@keyframes sheen{
+  from{ transform: translateX(-60%) rotate(12deg); }
+  to{ transform: translateX(60%) rotate(12deg); }
+}
+
+/* Gallery */
+.gallery-grid{
+  display:grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 18px;
+  align-items: start;
+}
+.photos{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.photo{
+  border-radius: 16px;
+  overflow:hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  display:block;
+  position: relative;
+}
+.photo img{
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display:block;
+  transition: transform 400ms ease;
+}
+.photo:hover img{ transform: scale(1.06); }
+
+.checklist{
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+.checklist li{ padding: 6px 0; border-bottom: 1px dashed rgba(40,30,20,0.12); }
+.checklist li:last-child{ border-bottom: none; }
+
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  text-decoration:none;
+  border: 1px solid transparent;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  font-weight: 700;
+}
+.btn.primary{
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  box-shadow: 0 14px 35px rgba(166,92,58,0.20);
+}
+.btn.primary:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 55px rgba(166,92,58,0.26);
+}
+.btn.ghost{
+  background: rgba(255,255,255,0.70);
+  border-color: rgba(40,30,20,0.12);
+}
+.btn.ghost:hover{
+  background: rgba(255,255,255,0.92);
+  transform: translateY(-2px);
+}
+.btn.big{ padding: 14px 18px; border-radius: 14px; font-size: 16px; }
+
+.final{ padding-top: 60px; }
+.fineprint{ margin-top: 14px; color: var(--muted); font-size: 13px; }
+
+/* ============ Reveal animation ============ */
+.reveal{
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+.reveal.in{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 920px){
+  .hero-grid{ grid-template-columns: 1fr; }
+  .floating-chip{ display:none; }
+  .two-col{ grid-template-columns: 1fr; }
+  .feature-grid{ grid-template-columns: 1fr; }
+  .gallery-grid{ grid-template-columns: 1fr; }
+  .media-card img{ height: 300px; }
+  .mini-grid{ grid-template-columns: 1fr; }
+  .nav{ display:none; }
+}
+
+
+
+
+    </style>
+
+</head>
+
+<!-- Sticky nav -->
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">
+            <span class="brand-mark">◎</span>
+            <span class="brand-name">Brain Awareness Campaign</span>
+        </div>
+
+        <nav class="nav">
+            <a href="#about">About</a>
+            <a href="#highlights">Highlights</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#register" class="nav-cta">Register</a>
+        </nav>
+    </div>
+</header>
+
+<main class="page">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-grid">
+            <div class="hero-copy reveal">
+                <p class="badge">Limited Seats • London • 2026</p>
+                <h1 class="headline">
+                    A warm, modern event landing page —
+                    <span class="headline-accent">built with HTML + CSS</span>
+                </h1>
+                <p class="subhead">
+                    This template shows different section layouts, text blocks of different sizes,
+                    images, and some “advanced” effects (glass cards, hover lift, gradient glow, subtle motion).
+                </p>
+
+                <div class="hero-actions">
+                    <a class="btn primary" href="#register">Reserve your spot</a>
+                    <a class="btn ghost" href="#highlights">See what’s inside</a>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Layouts</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Cards</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">Customisable</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-media reveal">
+                <div class="media-card">
+                    <img
+                            src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80"
+                            alt="People networking at an event"
+                    />
+                    <div class="media-caption">
+                        <strong>Networking & talks</strong>
+                        <span>Swap this image with yours</span>
+                    </div>
+                </div>
+
+                <div class="floating-chip chip-1">Warm palette</div>
+                <div class="floating-chip chip-2">Glass cards</div>
+                <div class="floating-chip chip-3">Hover effects</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT (Text block #1: medium card) -->
+    <section id="about" class="section">
+        <div class="section-head reveal">
+            <h2>About the event</h2>
+            <p>
+                Replace this with your real story: what the event is, who it’s for, and why it’s worth attending.
+            </p>
+        </div>
+
+        <div class="two-col">
+            <div class="card medium reveal">
+                <h3>Paragraph block (Medium)</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at lacus sed sapien
+                    convallis tristique. Integer euismod, arcu in varius luctus, ex lorem consequat
+                    orci, sed pellentesque odio est in mi.
+                </p>
+                <p>
+                    Aliquam erat volutpat. Donec nec tortor non erat dignissim fermentum. Morbi
+                    tincidunt, arcu sed pretium sagittis, enim leo malesuada eros, non feugiat
+                    tortor dui sit amet libero.
+                </p>
+
+                <div class="tags">
+                    <span class="tag">Talks</span>
+                    <span class="tag">Networking</span>
+                    <span class="tag">Food</span>
+                </div>
+            </div>
+
+            <div class="image-frame reveal">
+                <img
+                        src="https://images.unsplash.com/photo-1515165562835-c3b8c5ee3f4d?auto=format&fit=crop&w=1400&q=80"
+                        alt="Warm, modern venue"
+                />
+                <div class="image-overlay">
+                    <div class="overlay-title">Venue vibe</div>
+                    <div class="overlay-subtitle">Warm lighting • modern design</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HIGHLIGHTS (Text block #2: large featured card) -->
+    <section id="highlights" class="section alt">
+        <div class="section-head reveal">
+            <h2>Highlights</h2>
+            <p>Here’s a bigger “feature” block to show a different box size and layout.</p>
+        </div>
+
+        <div class="feature-grid">
+            <article class="card large reveal">
+                <div class="feature-top">
+                    <h3>Paragraph block (Large / Featured)</h3>
+                    <span class="pill">Featured</span>
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vitae mauris at
+                    ipsum pulvinar molestie. Sed luctus, nibh sed tristique malesuada, ipsum erat
+                    consequat risus, sed dignissim turpis mi at risus.
+                </p>
+                <p>
+                    Curabitur non eros ac libero convallis dictum. Proin in arcu ac justo
+                    vestibulum viverra. Pellentesque habitant morbi tristique senectus et netus et
+                    malesuada fames ac turpis egestas.
+                </p>
+
+                <div class="mini-grid">
+                    <div class="mini">
+                        <div class="mini-title">Session format</div>
+                        <div class="mini-text">Short talks + open discussion</div>
+                    </div>
+                    <div class="mini">
+                        <div class="mini-title">Audience</div>
+                        <div class="mini-text">Founders • builders • curious minds</div>
+                    </div>
+                    <div class="mini">
+                        <div class="mini-title">Outcome</div>
+                        <div class="mini-text">Meaningful connections</div>
+                    </div>
+                </div>
+            </article>
+
+            <div class="stack reveal">
+                <div class="card small hover-sheen">
+                    <h4>Card (Small)</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </p>
+                </div>
+                <div class="card small hover-sheen">
+                    <h4>Card (Small)</h4>
+                    <p>
+                        Donec nec tortor non erat dignissim fermentum.
+                    </p>
+                </div>
+                <div class="card small hover-sheen">
+                    <h4>Card (Small)</h4>
+                    <p>
+                        Proin in arcu ac justo vestibulum viverra.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY (Text block #3: small note card + image grid) -->
+    <section id="gallery" class="section">
+        <div class="section-head reveal">
+            <h2>Gallery layout</h2>
+            <p>Images + a smaller text block to show combinations.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="card note reveal">
+                <h3>Paragraph block (Small / Note)</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Use this for quick
+                    info: date, time, dress code, or what to bring.
+                </p>
+                <ul class="checklist">
+                    <li>📍 Location: Your venue</li>
+                    <li>🕖 Time: 6:30pm – 9:30pm</li>
+                    <li>🎟️ Entry: RSVP required</li>
+                </ul>
+            </div>
+
+            <div class="photos reveal">
+                <a class="photo" href="#register" aria-label="Photo 1">
+                    <img
+                            src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1400&q=80"
+                            alt="Event photo 1"
+                    />
+                </a>
+                <a class="photo" href="#register" aria-label="Photo 2">
+                    <img
+                            src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1400&q=80"
+                            alt="Event photo 2"
+                    />
+                </a>
+                <a class="photo" href="#register" aria-label="Photo 3">
+                    <img
+                            src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1400&q=80"
+                            alt="Event photo 3"
+                    />
+                </a>
+                <a class="photo" href="#register" aria-label="Photo 4">
+                    <img
+                            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1400&q=80"
+                            alt="Event photo 4"
+                    />
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGISTER (button at the end) -->
+    <section id="register" class="section final">
+        <div class="card register reveal">
+            <h2>Ready to register?</h2>
+            <p>
+                Click the button below to open the Google Form in a new tab.
+                Replace the link with your own.
+            </p>
+
+            <a
+                    class="btn primary big"
+                    href="https://forms.gle/YOUR_FORM_LINK"
+                    target="_blank"
+                    rel="noopener noreferrer"
+            >
+                Register via Google Form →
+            </a>
+
+            <p class="fineprint">
+                Tip: You can also embed the form later, but linking out is simplest (and works great).
+            </p>
+        </div>
+    </section>
+</main>
+
+<!-- Optional tiny JS for reveal-on-scroll animation (safe to remove) -->
+<script>
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add("in");
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  </script>
+</body>

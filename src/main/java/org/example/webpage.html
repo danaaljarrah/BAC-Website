@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Event Landing Page</title>
+
+    <style>
+        /* ============== Theme ============== */
+        :root{
+            --bg1: #f6fbff;
+            --bg2: #eef7ff;
+            --card: rgba(255,255,255,0.78);
+            --cardSolid: #ffffff;
+            --text: #0f1b2d;
+            --muted: rgba(15,27,45,0.68);
+            --line: rgba(20,60,120,0.10);
+            --blue1: #77bdfc;
+            --blue2: #3b82f6;
+            --blue3: #2563eb;
+            --shadow: 0 14px 40px rgba(15, 55, 120, 0.10);
+            --shadow2: 0 18px 60px rgba(15, 55, 120, 0.14);
+            --radius: 18px;
+            --radius2: 24px;
+        }
+
+        *{ margin:0; padding:0; box-sizing:border-box; }
+        html{ scroll-behavior: smooth; }
+        body{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text);
+            background:
+                    radial-gradient(1000px 600px at 15% -10%, rgba(119,189,252,0.28), transparent 60%),
+                    radial-gradient(900px 580px at 100% 20%, rgba(59,130,246,0.18), transparent 55%),
+                    linear-gradient(180deg, var(--bg1), var(--bg2));
+            overflow-x: hidden;
+        }
+
+        a{ color: inherit; }
+        .wrap{
+            width: min(1100px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 76px 0 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ============== Subtle animated blobs ============== */
+        .blobs{ position: fixed; inset: 0; pointer-events:none; z-index: 0; }
+        .blob{
+            position:absolute; border-radius: 999px;
+            filter: blur(40px);
+            opacity: 0.55;
+            animation: floaty 12s ease-in-out infinite;
+        }
+        .b1{ width:420px; height:420px; left:-140px; top:110px; background: rgba(119,189,252,0.40); }
+        .b2{ width:520px; height:520px; right:-200px; top:260px; background: rgba(59,130,246,0.26); animation-delay:-4s; }
+        .b3{ width:380px; height:380px; left:25%; bottom:-160px; background: rgba(37,99,235,0.14); animation-delay:-8s; }
+        @keyframes floaty{
+            0%,100%{ transform: translate(0,0); }
+            50%{ transform: translate(18px,-18px); }
+        }
+
+        /* ============== Top bar (logo + title + language toggle) ============== */
+        .topbar{
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(246, 251, 255, 0.70);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+        .topbar-inner{
+            width: min(1100px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 12px 0;
+            display:flex;
+            align-items:center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand{
+            display:flex;
+            align-items:center;
+            gap: 12px;
+            min-width: 0;
+        }
+        .logo{
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(119,189,252,0.45), rgba(37,99,235,0.25));
+            border: 1px solid rgba(59,130,246,0.18);
+            box-shadow: 0 10px 28px rgba(15, 55, 120, 0.10);
+            display:grid;
+            place-items:center;
+            font-weight: 900;
+            color: rgba(15,27,45,0.82);
+            flex: 0 0 auto;
+        }
+        .brand-title{
+            display:flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+        .brand-title h1{
+            font-size: 16px;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .brand-title p{
+            font-size: 12px;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lang-toggle{
+            display:flex;
+            gap: 8px;
+            align-items:center;
+            flex: 0 0 auto;
+        }
+        .lang-btn{
+            border: 1px solid rgba(59,130,246,0.20);
+            background: rgba(255,255,255,0.78);
+            color: rgba(15,27,45,0.88);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+            box-shadow: 0 10px 25px rgba(15, 55, 120, 0.06);
+        }
+        .lang-btn:hover{ transform: translateY(-1px); box-shadow: 0 14px 30px rgba(15,55,120,0.10); }
+        .lang-btn.active{
+            background: linear-gradient(135deg, rgba(119,189,252,0.55), rgba(37,99,235,0.25));
+            border-color: rgba(37,99,235,0.22);
+        }
+
+        /* ============== Sections + reveal-on-scroll fade ============== */
+        section{ scroll-margin-top: 84px; }
+        .section{
+            padding: 44px 0;
+        }
+        .section-head{
+            margin-bottom: 16px;
+        }
+        .section-head h2{
+            font-size: 26px;
+            letter-spacing: -0.25px;
+            margin-bottom: 8px;
+        }
+        .section-head p{
+            color: var(--muted);
+            max-width: 72ch;
+        }
+
+        .reveal{
+            opacity: 0;
+            transform: translateY(16px);
+            filter: blur(2px);
+            transition: opacity 560ms ease, transform 560ms ease, filter 560ms ease;
+            will-change: opacity, transform, filter;
+        }
+        .reveal.in{
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        /* ============== Cards ============== */
+        .card{
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius2);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            padding: 22px;
+        }
+        .card:hover{
+            box-shadow: var(--shadow2);
+        }
+
+        /* ============== Introduction layout ============== */
+        .intro-grid{
+            display:grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 18px;
+            align-items: stretch;
+        }
+        .intro-copy .badge{
+            display:inline-flex;
+            gap: 10px;
+            align-items:center;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(59,130,246,0.16);
+            background: rgba(255,255,255,0.70);
+            color: rgba(15,27,45,0.75);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        .intro-copy h3{
+            font-size: clamp(26px, 3vw, 38px);
+            line-height: 1.12;
+            letter-spacing: -0.6px;
+            margin-bottom: 10px;
+        }
+        .intro-copy p{
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 14px;
+        }
+
+        .inline-links{
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(20,60,120,0.18);
+            color: rgba(15,27,45,0.75);
+            font-size: 14px;
+        }
+        .inline-links a{
+            color: rgba(37,99,235,0.92);
+            text-decoration: none;
+            font-weight: 800;
+            border-bottom: 1px solid rgba(37,99,235,0.25);
+            transition: background 150ms ease, border-color 150ms ease;
+        }
+
+        .inline-links a:hover{
+            background: rgba(119,189,252,0.22);
+            border-color: rgba(37,99,235,0.5);
+        }
+
+        .intro-media{
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius2);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            background: rgba(255,255,255,0.55);
+        }
+        .intro-media img{
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+            object-fit: cover;
+            display:block;
+            transform: scale(1.02);
+            transition: transform 520ms ease;
+        }
+        .intro-media:hover img{ transform: scale(1.06); }
+        .intro-overlay{
+            position:absolute;
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.74);
+            border: 1px solid rgba(255,255,255,0.55);
+            backdrop-filter: blur(10px);
+        }
+        .intro-overlay strong{ display:block; }
+        .intro-overlay span{ display:block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+        /* ============== Events accordion ============== */
+        .accordion{
+            display:flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        details.ac-item{
+            border-radius: var(--radius2);
+            border: 1px solid rgba(37,99,235,0.14);
+            background: rgba(255,255,255,0.70);
+            box-shadow: 0 10px 26px rgba(15,55,120,0.07);
+            overflow: hidden;
+            transition: transform 180ms ease, box-shadow 180ms ease;
+        }
+        details.ac-item:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 18px 48px rgba(15,55,120,0.12);
+        }
+
+        summary{
+            list-style: none;
+            cursor: pointer;
+            user-select:none;
+            padding: 16px 18px;
+            display:flex;
+            align-items:center;
+            justify-content: space-between;
+            gap: 12px;
+            position: relative;
+            background: linear-gradient(135deg, rgba(119,189,252,0.30), rgba(255,255,255,0.70));
+        }
+        summary::-webkit-details-marker{ display:none; }
+
+        .sum-left{
+            display:flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+        .sum-title{
+            font-weight: 900;
+            letter-spacing: -0.2px;
+            font-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sum-sub{
+            font-size: 13px;
+            color: rgba(15,27,45,0.70);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chev{
+            width: 34px; height: 34px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.70);
+            border: 1px solid rgba(37,99,235,0.14);
+            display:grid;
+            place-items:center;
+            flex: 0 0 auto;
+            transition: transform 220ms ease;
+        }
+        details[open] .chev{ transform: rotate(180deg); }
+
+        /* content animation */
+        .ac-body{
+            padding: 16px 18px 18px;
+            border-top: 1px solid rgba(20,60,120,0.10);
+            animation: drop 240ms ease;
+            background: rgba(255,255,255,0.75);
+        }
+        @keyframes drop{
+            from{ opacity: 0; transform: translateY(-6px); }
+            to{ opacity: 1; transform: translateY(0); }
+        }
+
+        .ac-grid{
+            display:grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 14px;
+            align-items: start;
+        }
+        .ac-text p{
+            color: var(--muted);
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .chips{ display:flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .chip{
+            font-size: 12px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(119,189,252,0.18);
+            border: 1px solid rgba(37,99,235,0.12);
+            color: rgba(15,27,45,0.80);
+            font-weight: 700;
+        }
+
+        .ac-photo{
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(20,60,120,0.10);
+            box-shadow: 0 14px 35px rgba(15,55,120,0.08);
+            position: relative;
+            background: rgba(255,255,255,0.55);
+        }
+        .ac-photo img{
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display:block;
+            transform: scale(1.02);
+            transition: transform 520ms ease;
+        }
+        details[open] .ac-photo img{ transform: scale(1.06); }
+
+        /* Fancy sheen on hover */
+        details.ac-item{ position: relative; }
+        details.ac-item::after{
+            content:"";
+            position:absolute;
+            inset:-40%;
+            background: linear-gradient(110deg, transparent, rgba(255,255,255,0.55), transparent);
+            transform: translateX(-70%) rotate(10deg);
+            opacity: 0;
+            pointer-events:none;
+        }
+        details.ac-item:hover::after{
+            opacity: 1;
+            animation: sheen 900ms ease forwards;
+        }
+        @keyframes sheen{
+            from{ transform: translateX(-70%) rotate(10deg); }
+            to{ transform: translateX(70%) rotate(10deg); }
+        }
+
+        /* ============== Registration box ============== */
+        .register{
+            border: 1px solid rgba(37,99,235,0.16);
+            background: rgba(255,255,255,0.80);
+        }
+        .register h3{
+            font-size: 22px;
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
+        }
+        .register p{
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+        .fineprint{
+            font-size: 12px;
+            color: rgba(15,27,45,0.58);
+            margin-top: 12px;
+        }
+
+        .btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap: 10px;
+            text-decoration:none;
+            font-weight: 900;
+            border-radius: 999px;
+            padding: 12px 16px;
+            border: 1px solid transparent;
+            transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+            cursor:pointer;
+            white-space: nowrap;
+        }
+        .btn-primary{
+            background: linear-gradient(135deg, rgba(119,189,252,0.95), rgba(37,99,235,0.95));
+            color: white;
+            box-shadow: 0 16px 42px rgba(37,99,235,0.22);
+        }
+        .btn-primary:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 22px 62px rgba(37,99,235,0.28);
+            filter: brightness(1.02);
+        }
+
+        /* ============== Sponsors ============== */
+        .sponsor-grid{
+            display:grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .sponsor{
+            border-radius: 18px;
+            border: 1px solid rgba(20,60,120,0.10);
+            background: rgba(255,255,255,0.72);
+            padding: 14px 12px;
+            display:flex;
+            align-items:center;
+            gap: 10px;
+            min-height: 66px;
+            transition: transform 180ms ease, box-shadow 180ms ease;
+            box-shadow: 0 10px 25px rgba(15,55,120,0.06);
+        }
+        .sponsor:hover{ transform: translateY(-2px); box-shadow: 0 16px 44px rgba(15,55,120,0.12); }
+        .slogo{
+            width: 38px; height: 38px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(119,189,252,0.40), rgba(37,99,235,0.20));
+            border: 1px solid rgba(37,99,235,0.14);
+            display:grid;
+            place-items:center;
+            font-weight: 900;
+            color: rgba(15,27,45,0.75);
+            flex: 0 0 auto;
+        }
+        .sponsor span{
+            font-weight: 800;
+            font-size: 13px;
+            color: rgba(15,27,45,0.82);
+            overflow:hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ============== Footer spacing ============== */
+        .footer-space{ height: 20px; }
+
+        /* ============== Arabic support ============== */
+        .rtl{
+            direction: rtl;
+            text-align: right;
+            font-family: "Noto Naskh Arabic", "Noto Kufi Arabic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* ============== Responsive ============== */
+        @media (max-width: 920px){
+            .wrap{ padding-top: 62px; }
+            .intro-grid{ grid-template-columns: 1fr; }
+            .intro-media img{ min-height: 260px; }
+            .ac-grid{ grid-template-columns: 1fr; }
+            .ac-photo img{ height: 210px; }
+            .sponsor-grid{ grid-template-columns: repeat(2, 1fr); }
+            .brand-title p{ display:none; }
+        }
+        @media (max-width: 420px){
+            .sponsor-grid{ grid-template-columns: 1fr; }
+            .lang-btn{ padding: 8px 10px; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="blobs" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+</div>
+
+<!-- Top bar: logo + page name + language toggle at top right -->
+<header class="topbar">
+    <div class="topbar-inner">
+        <div class="brand">
+            <div class="logo" aria-label="Logo">BAC</div>
+            <div class="brand-title">
+                <h1 data-i18n="site_title">Event Landing Page</h1>
+                <p data-i18n="site_subtitle">Smooth, mobile-friendly • English / العربية</p>
+            </div>
+        </div>
+
+        <div class="lang-toggle" aria-label="Language toggle">
+            <button class="lang-btn active" id="btn-en" type="button">EN</button>
+            <button class="lang-btn" id="btn-ar" type="button">ع</button>
+        </div>
+    </div>
+</header>
+
+<main class="wrap">
+
+    <!-- 1) Introduction -->
+    <section id="introduction" class="section reveal">
+        <div class="intro-grid">
+            <div class="card intro-copy">
+                <div class="badge" data-i18n="intro_badge">📍 Amman • ✨ 4 Sessions • 🎟️ Pre-register to enter</div>
+                <h3 data-i18n="intro_heading">Brain Awareness Campaign</h3>
+                <p data-i18n="intro_paragraph">
+                    put in summary information for event in this section.
+                </p>
+
+                <!-- Embedded links to drop-down events -->
+                <div class="inline-links" data-i18n="intro_links">
+                    Jump to events:
+                    <a href="#event-1">Event One - Sat 10:00 </a>
+                    <a href="#event-2">Event Two - Sat 12:00 </a>
+                    <a href="#event-3">Event Three - Sat 15:00 </a>
+                    <a href="#event-4">Event Four - Sat 18:00 </a>
+                </div>
+            </div>
+
+            <div class="intro-media">
+                <img
+                        src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80"
+                        alt="Event image placeholder"
+                />
+                <div class="intro-overlay">
+                    <strong data-i18n="intro_overlay_title">Beautiful visuals + clear structure</strong>
+                    <span data-i18n="intro_overlay_subtitle">Replace this image with your own event photo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2) Events -->
+    <section id="events" class="section reveal">
+        <div class="section-head">
+            <h2 data-i18n="events_title">Events</h2>
+            <p data-i18n="events_subtitle">
+                Four consistent dropdown boxes (accordion style). Click each title to expand with text + image.
+            </p>
+        </div>
+
+        <div class="accordion">
+
+            <details class="ac-item" id="event-1">
+                <summary>
+                    <div class="sum-left">
+                        <div class="sum-title" data-i18n="e1_title">Event One — Opening Session</div>
+                        <div class="sum-sub" data-i18n="e1_sub">Saturday • 10:00–11:30 • Main Hall</div>
+                    </div>
+                    <div class="chev" aria-hidden="true">⌄</div>
+                </summary>
+
+                <div class="ac-body">
+                    <div class="ac-grid">
+                        <div class="ac-text">
+                            <p data-i18n="e1_p1">
+                                Placeholder details: Describe the agenda, speakers, what attendees should expect,
+                                and any important notes (dress code, arrival time, etc.).
+                            </p>
+                            <p data-i18n="e1_p2">
+                                You can also include bullet points or key takeaways. Keep it short and scannable.
+                            </p>
+                            <div class="chips">
+                                <span class="chip" data-i18n="chip_student">Student</span>
+                                <span class="chip" data-i18n="chip_talks">Talks</span>
+                                <span class="chip" data-i18n="chip_qna">Q&amp;A</span>
+                            </div>
+                        </div>
+
+                        <div class="ac-photo">
+                            <img
+                                    src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80"
+                                    alt="Event One placeholder image"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="ac-item" id="event-2">
+                <summary>
+                    <div class="sum-left">
+                        <div class="sum-title" data-i18n="e2_title">Event Two — Workshop</div>
+                        <div class="sum-sub" data-i18n="e2_sub">Saturday • 12:00–13:30 • Workshop Room</div>
+                    </div>
+                    <div class="chev" aria-hidden="true">⌄</div>
+                </summary>
+
+                <div class="ac-body">
+                    <div class="ac-grid">
+                        <div class="ac-text">
+                            <p data-i18n="e2_p1">
+                                Placeholder details: Explain what people will do in this workshop, what to bring,
+                                and whether it is beginner-friendly.
+                            </p>
+                            <p data-i18n="e2_p2">
+                                Add a short list of outcomes: skills learned, templates provided, or hands-on activities.
+                            </p>
+                            <div class="chips">
+                                <span class="chip" data-i18n="chip_hands_on">Hands-on</span>
+                                <span class="chip" data-i18n="chip_small_groups">Small groups</span>
+                                <span class="chip" data-i18n="chip_resources">Resources</span>
+                            </div>
+                        </div>
+
+                        <div class="ac-photo">
+                            <img
+                                    src="https://images.unsplash.com/photo-1515165562835-c3b8c5ee3f4d?auto=format&fit=crop&w=1600&q=80"
+                                    alt="Event Two placeholder image"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="ac-item" id="event-3">
+                <summary>
+                    <div class="sum-left">
+                        <div class="sum-title" data-i18n="e3_title">Event Three — Panel Discussion</div>
+                        <div class="sum-sub" data-i18n="e3_sub">Saturday • 15:00–16:15 • Main Hall</div>
+                    </div>
+                    <div class="chev" aria-hidden="true">⌄</div>
+                </summary>
+
+                <div class="ac-body">
+                    <div class="ac-grid">
+                        <div class="ac-text">
+                            <p data-i18n="e3_p1">
+                                Placeholder details: Introduce the panel theme and types of panelists.
+                                Explain what questions will be explored.
+                            </p>
+                            <p data-i18n="e3_p2">
+                                Mention whether there will be audience participation and how people can get involved.
+                            </p>
+                            <div class="chips">
+                                <span class="chip" data-i18n="chip_panel">Panel</span>
+                                <span class="chip" data-i18n="chip_discussion">Discussion</span>
+                                <span class="chip" data-i18n="chip_audience">Audience</span>
+                            </div>
+                        </div>
+
+                        <div class="ac-photo">
+                            <img
+                                    src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1600&q=80"
+                                    alt="Event Three placeholder image"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="ac-item" id="event-4">
+                <summary>
+                    <div class="sum-left">
+                        <div class="sum-title" data-i18n="e4_title">Event Four — Networking & Closing</div>
+                        <div class="sum-sub" data-i18n="e4_sub">Saturday • 18:00–20:00 • Lounge</div>
+                    </div>
+                    <div class="chev" aria-hidden="true">⌄</div>
+                </summary>
+
+                <div class="ac-body">
+                    <div class="ac-grid">
+                        <div class="ac-text">
+                            <p data-i18n="e4_p1">
+                                Placeholder details: Describe the networking format (free flow, speed networking, themed tables),
+                                plus refreshments and any closing announcements.
+                            </p>
+                            <p data-i18n="e4_p2">
+                                Add helpful notes such as: “Bring business cards” or “Follow-up group link will be shared”.
+                            </p>
+                            <div class="chips">
+                                <span class="chip" data-i18n="chip_social">Social</span>
+                                <span class="chip" data-i18n="chip_refreshments">Refreshments</span>
+                                <span class="chip" data-i18n="chip_closing">Closing</span>
+                            </div>
+                        </div>
+
+                        <div class="ac-photo">
+                            <img
+                                    src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1600&q=80"
+                                    alt="Event Four placeholder image"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+        </div>
+    </section>
+
+    <!-- 3) Registration Redirect -->
+    <section id="registration" class="section reveal">
+        <div class="card register">
+            <div class="section-head" style="margin-bottom: 10px;">
+                <h2 data-i18n="reg_title">Registration</h2>
+                <p data-i18n="reg_subtitle">Click the button to register via Google Forms.</p>
+            </div>
+
+            <a class="btn btn-primary"
+               href="https://forms.gle/YOUR_FORM_LINK"
+               target="_blank"
+               rel="noopener noreferrer"
+               data-i18n="reg_button"
+            >
+                Register Now →
+            </a>
+
+            <div class="fineprint" data-i18n="reg_fineprint">
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4) Sponsor Information -->
+    <section id="sponsors" class="section reveal">
+        <div class="section-head">
+            <h2 data-i18n="sponsor_title">Sponsors</h2>
+            <p data-i18n="sponsor_subtitle">
+                Add sponsor logos and names here. Replace the placeholders with your real sponsor branding.
+            </p>
+        </div>
+
+        <div class="sponsor-grid">
+            <div class="sponsor">
+                <div class="slogo">A</div>
+                <span data-i18n="sp1">Alpha Partners</span>
+            </div>
+            <div class="sponsor">
+                <div class="slogo">B</div>
+                <span data-i18n="sp2">BlueWave Group</span>
+            </div>
+            <div class="sponsor">
+                <div class="slogo">C</div>
+                <span data-i18n="sp3">CloudNine Co.</span>
+            </div>
+            <div class="sponsor">
+                <div class="slogo">D</div>
+                <span data-i18n="sp4">Dawn Innovations</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-space"></div>
+</main>
+
+<script>
+    /* ========= Reveal on scroll (fade in/out feel) ========= */
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('in');
+            else e.target.classList.remove('in');
+        });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    /* ========= Simple i18n toggle (English / Arabic) ========= */
+    const btnEn = document.getElementById('btn-en');
+    const btnAr = document.getElementById('btn-ar');
+
+    const dict = {
+        en: {
+            site_title: "Event Landing Page",
+            site_subtitle: "Smooth, mobile-friendly • English / العربية",
+
+            intro_badge: "📍 Amman • ✨ 4 Sessions • 🎟️ Limited Seats",
+            intro_heading: "Brain Awareness Campaign",
+            intro_paragraph:
+                "please put a paragraph here containing introduction information",
+            intro_links:
+                `Jump to events:
+           <a href="#event-1">Mind Mastery</a> - Mon 16th 11:11 •
+           <a href="#event-2">Nurturing Minds</a> - Tues 17th 11:11 •
+           <a href="#event-3">Memory Matters</a> - Wed 18th 11:11 •
+           <a href="#event-4">Rewiring Recovery</a> - Thur 19th 11:11`,
+            intro_overlay_title: "Beautiful visuals + clear structure",
+            intro_overlay_subtitle: "Replace this image with your own event photo",
+
+            events_title: "Events - What's on",
+            events_subtitle:
+                "Click an Event to learn more!",
+
+            e1_title: "Mind Mastery - Student Workshop",
+            e1_sub: "Monday 16th March • 11:11–11:11 • Put Location Here",
+            e1_p1:
+                "Placeholder details: Describe the agenda, speakers, what attendees should expect, and any important notes (dress code, arrival time, etc.).",
+            e1_p2:
+                "You can also include bullet points or key takeaways. Keep it short and scannable.",
+
+            e2_title: "Nurturing Minds - Parenting Workshop",
+            e2_sub: "Tuesday 17th March • 11:11–11:11 • Put Location Here",
+            e2_p1:
+                "Placeholder details: Explain what people will do in this workshop, what to bring, and whether it is beginner-friendly.",
+            e2_p2:
+                "Add a short list of outcomes: skills learned, templates provided, or hands-on activities.",
+
+            e3_title: "Memory Matters - Elderly Workshop",
+            e3_sub: "Wednesday 18th March • 11:11–11:11 • Put Location Here",
+            e3_p1:
+                "Placeholder details: Introduce the panel theme and types of panelists. Explain what questions will be explored.",
+            e3_p2:
+                "Mention whether there will be audience participation and how people can get involved.",
+
+            e4_title: "Rewiring Recovery - Addiction Workshop",
+            e4_sub: "Thursday 19th March • 11:11–11:11 • Put Location Here",
+            e4_p1:
+                "Placeholder details: Describe the networking format (free flow, speed networking, themed tables), plus refreshments and any closing announcements.",
+            e4_p2:
+                "Add helpful notes such as: “Bring business cards” or “Follow-up group link will be shared”.",
+
+            chip_student: "Student",
+            chip_talks: "Learning",
+            chip_qna: "College",
+            chip_hands_on: "Hands-on",
+            chip_small_groups: "Small groups",
+            chip_resources: "Resources",
+            chip_panel: "Panel",
+            chip_discussion: "Discussion",
+            chip_audience: "Audience",
+            chip_social: "Social",
+            chip_refreshments: "Refreshments",
+            chip_closing: "Closing",
+
+            reg_title: "Registration",
+            reg_subtitle: "Click the button to register via Google Forms.",
+            reg_button: "Register Now →",
+            reg_fineprint:
+                "",
+
+            sponsor_title: "Sponsors",
+            sponsor_subtitle:
+                "Add sponsor logos and names here. Replace the placeholders with your real sponsor branding.",
+            sp1: "I AM A SPONSOR",
+            sp2: "LOOK AT ME",
+            sp3: "I SPONSING.",
+            sp4: "Dawn Innovations",
+        },
+
+        ar: {
+            site_title: "صفحة فعالية",
+            site_subtitle: "تجربة سلسة ومتوافقة مع الجوال • English / العربية",
+
+            intro_badge: "📍 لندن • ✨ ٤ جلسات • 🎟️ مقاعد محدودة",
+            intro_heading: "مرحباً بكم في الفعالية — تجربة حديثة وبسيطة",
+            intro_paragraph:
+                "هذا نص تمهيدي مؤقت. استخدم هذه المساحة لشرح ماهية الفعالية، ولمن هي موجهة، وما الذي سيحصل عليه الحضور. التصميم خفيف وناعم ومريح للعين.",
+            intro_links:
+                `الانتقال إلى الفعاليات:
+           <a href="#event-1">الفعالية الأولى</a> - السبت ١٠:٠٠ •
+           <a href="#event-2">الفعالية الثانية</a> - السبت ١٢:٠٠ •
+           <a href="#event-3">الفعالية الثالثة</a> - السبت ١٥:٠٠ •
+           <a href="#event-4">الفعالية الرابعة</a> - السبت ١٨:٠٠`,
+            intro_overlay_title: "صور جميلة + تنظيم واضح",
+            intro_overlay_subtitle: "استبدل هذه الصورة بصورة فعالية خاصة بك",
+
+            events_title: "الفعاليات",
+            events_subtitle:
+                "أربع قوائم منسدلة بنفس النمط. اضغط على العنوان لعرض التفاصيل مع النص والصورة.",
+
+            e1_title: "الفعالية الأولى — الجلسة الافتتاحية",
+            e1_sub: "السبت • ١٠:٠٠–١١:٣٠ • القاعة الرئيسية",
+            e1_p1:
+                "تفاصيل مؤقتة: صف جدول الأعمال والمتحدثين وما الذي يجب أن يتوقعه الحضور، وأي ملاحظات مهمة (اللباس، وقت الوصول، إلخ).",
+            e1_p2:
+                "يمكنك أيضاً إضافة نقاط مختصرة لأهم المخرجات. اجعلها سهلة القراءة.",
+
+            e2_title: "الفعالية الثانية — ورشة عمل",
+            e2_sub: "السبت • ١٢:٠٠–١٣:٣٠ • قاعة الورش",
+            e2_p1:
+                "تفاصيل مؤقتة: اشرح ما الذي سيقوم به المشاركون في الورشة، وما الذي يجب إحضاره، وهل هي مناسبة للمبتدئين.",
+            e2_p2:
+                "أضف مخرجات واضحة: مهارات، قوالب، أو أنشطة تطبيقية.",
+
+            e3_title: "الفعالية الثالثة — حلقة نقاش",
+            e3_sub: "السبت • ١٥:٠٠–١٦:١٥ • القاعة الرئيسية",
+            e3_p1:
+                "تفاصيل مؤقتة: عرّف موضوع النقاش وأنواع المشاركين، وما الأسئلة التي سيتم تناولها.",
+            e3_p2:
+                "اذكر إن كان هناك مشاركة من الجمهور وكيف يمكنهم التفاعل.",
+
+            e4_title: "الفعالية الرابعة — تواصل وختام",
+            e4_sub: "السبت • ١٨:٠٠–٢٠:٠٠ • الصالة",
+            e4_p1:
+                "تفاصيل مؤقتة: صف طريقة التواصل (حر/سريع/طاولات موضوعية)، والضيافة وأي إعلانات ختامية.",
+            e4_p2:
+                "أضف ملاحظات مفيدة مثل: إحضار بطاقات عمل أو مشاركة رابط متابعة بعد الفعالية.",
+
+            chip_student: "تواصل",
+            chip_talks: "محاضرات",
+            chip_qna: "أسئلة وأجوبة",
+            chip_hands_on: "تطبيقي",
+            chip_small_groups: "مجموعات صغيرة",
+            chip_resources: "موارد",
+            chip_panel: "نقاش",
+            chip_discussion: "حوار",
+            chip_audience: "الجمهور",
+            chip_social: "اجتماعي",
+            chip_refreshments: "ضيافة",
+            chip_closing: "ختام",
+
+            reg_title: "التسجيل",
+            reg_subtitle: "اضغط على الزر للتسجيل عبر نموذج Google.",
+            reg_button: "سجّل الآن →",
+            reg_fineprint:
+                "* ملاحظة مؤقتة: بعد التسجيل ستصلك رسالة تأكيد عبر البريد الإلكتروني مع المزيد من التفاصيل.",
+
+            sponsor_title: "الرعاة",
+            sponsor_subtitle:
+                "أضف شعارات وأسماء الشركات الداعمة هنا. استبدل العناصر المؤقتة بعلامات الرعاة الحقيقية.",
+            sp1: "ألفا بارتنرز",
+            sp2: "بلو ويف",
+            sp3: "كلاود ناين",
+            sp4: "داون إنوفيشنز",
+        }
+    };
+
+    function setLang(lang){
+        // Toggle button active state
+        btnEn.classList.toggle('active', lang === 'en');
+        btnAr.classList.toggle('active', lang === 'ar');
+
+        // Direction for Arabic
+        document.body.classList.toggle('rtl', lang === 'ar');
+        document.documentElement.lang = (lang === 'ar') ? 'ar' : 'en';
+
+        // Apply translations
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const val = dict[lang][key];
+            if (!val) return;
+            // Some fields include links -> use innerHTML
+            if (key === 'intro_links') el.innerHTML = val;
+            else el.textContent = val;
+        });
+    }
+
+    btnEn.addEventListener('click', () => setLang('en'));
+    btnAr.addEventListener('click', () => setLang('ar'));
+
+    // Default language
+    setLang('en');
+</script>
+</body>
+</html>
