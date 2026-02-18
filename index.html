@@ -489,6 +489,35 @@
             transition: transform 180ms ease, box-shadow 180ms ease;
             box-shadow: 0 10px 25px rgba(15,55,120,0.06);
         }
+
+        .ibro-img {
+            width: 78px;
+            height: 78px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: white;
+            padding: 4px;
+        }
+
+        .dana-img {
+            width: 78px; /*38*/
+            height: 78px; /*38*/
+            object-fit: contain;
+            border-radius: 12px;
+            background: white;
+            padding: 4px;
+        }
+
+        .baclogo-img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: white;
+            padding: 4px;
+        }
+
+
         .sponsor:hover{ transform: translateY(-2px); box-shadow: 0 16px 44px rgba(15,55,120,0.12); }
         .slogo{
             width: 38px; height: 38px;
@@ -548,9 +577,12 @@
 <header class="topbar">
     <div class="topbar-inner">
         <div class="brand">
-            <div class="logo" aria-label="Logo">BAC</div>
+            <div class="logo" aria-label="Logo">
+                <img class="baclogo-img" src="images/Brain-Awareness-Week-logo-color-rgb.png" alt="BAC logo">
+<!--                <span>Brain Awareness Campaign</span>-->
+            </div>
             <div class="brand-title">
-                <h1 data-i18n="site_title">Event Landing Page</h1>
+                <h1 data-i18n="site_title">Brain Awareness Campaign</h1>
                 <p data-i18n="site_subtitle">Smooth, mobile-friendly • English / العربية</p>
             </div>
         </div>
@@ -571,30 +603,6 @@
                 <div class="badge" data-i18n="intro_badge">📍 Amman • ✨ 4 Workshops • 🎟️ Pre-register to enter</div>
                 <h3 data-i18n="intro_heading">Brain Awareness Campaign</h3>
                 <p data-i18n="intro_paragraph">
-<!--                    <p>-->
-<!--                        <strong>Brain Awareness Campaign 2026</strong> is a four-day community campaign designed-->
-<!--                        to make neuroscience practical, accessible and relevant to everyday life in Jordan.-->
-<!--                    </p>-->
-
-<!--                    <p>-->
-<!--                        The campaign aims to increase understanding of how the brain learns, develops,-->
-<!--                        adapts and recovers, and how this knowledge can improve education,-->
-<!--                        parenting, healthy ageing and addiction recovery.-->
-<!--                    </p>-->
-
-<!--                    <p><strong>Each day focuses on a different group within the community:</strong></p>-->
-
-<!--                    <ul class="event-bullets">-->
-<!--                        <li><strong>Students:</strong> Brain-based techniques to improve motivation, focus and stress management.</li>-->
-<!--                        <li><strong>Parents:</strong> How daily interactions shape a child’s brain development.</li>-->
-<!--                        <li><strong>Elderly individuals and carers:</strong> Practical tools to support cognitive health and dementia awareness.</li>-->
-<!--                        <li><strong>Individuals in addiction recovery:</strong> How substances affect brain circuitry and neuroscience-informed rehabilitation strategies.</li>-->
-<!--                    </ul>-->
-
-<!--                    <p>-->
-<!--                        The goal is to reduce stigma, increase awareness and build a more brain-informed society — one that uses science to improve wellbeing-->
-<!--                        at every stage of life.-->
-<!--                    </p>-->
                 </p>
 
                 <!-- Embedded links to drop-down events -->
@@ -809,26 +817,22 @@
         <div class="section-head">
             <h2 data-i18n="sponsor_title">Sponsors</h2>
             <p data-i18n="sponsor_subtitle">
-                Add sponsor logos and names here. Replace the placeholders with your real sponsor branding.
+                This Campaign was generously sponsored by the International Brain Research Organisation and Dana Foundation
             </p>
         </div>
 
         <div class="sponsor-grid">
             <div class="sponsor">
-                <div class="slogo">A</div>
-                <span data-i18n="sp1">Alpha Partners</span>
+                <img class="ibro-img"
+                     src="https://upload.wikimedia.org/wikipedia/commons/b/b0/IBRO_logo_main_2022.png"
+                     alt="IBRO logo">
+                <span data-i18n="sp1">International Brain Research Organisation</span>
             </div>
             <div class="sponsor">
-                <div class="slogo">B</div>
-                <span data-i18n="sp2">BlueWave Group</span>
-            </div>
-            <div class="sponsor">
-                <div class="slogo">C</div>
-                <span data-i18n="sp3">CloudNine Co.</span>
-            </div>
-            <div class="sponsor">
-                <div class="slogo">D</div>
-                <span data-i18n="sp4">Dawn Innovations</span>
+                <img class="dana-img"
+                     src="https://images.seeklogo.com/logo-png/53/1/dana-foundation-logo-png_seeklogo-530578.png"
+                     alt="Dana logo">
+                <span data-i18n="sp2">Dana Foundation</span>
             </div>
         </div>
     </section>
@@ -946,11 +950,9 @@
 
             sponsor_title: "Sponsors",
             sponsor_subtitle:
-                "Add sponsor logos and names here. Replace the placeholders with your real sponsor branding.",
-            sp1: "I AM A SPONSOR",
-            sp2: "LOOK AT ME",
-            sp3: "I SPONSING.",
-            sp4: "Dawn Innovations",
+                "This Campaign was generously sponsored by the International brain Research Organisation and Dana Foundation ",
+            sp1: "International Brain Research Organisation",
+            sp2: "Dana Foundation"
         },
 
         ar: {
@@ -1044,88 +1046,9 @@
             sponsor_subtitle:
                 "أضف شعارات وأسماء الجهات الراعية هنا. استبدل العناصر المؤقتة بهوية الرعاة الحقيقية.",
             sp1: "أنا راعٍ",
-            sp2: "انظر إليّ",
-            sp3: "أنا أرعى.",
-            sp4: "ابتكارات داون",
+            sp2: "انظر إليّ"
         }
 
-
-        // ar: {
-        //     site_title: "صفحة فعالية",
-        //     site_subtitle: "تجربة سلسة ومتوافقة مع الجوال • English / العربية",
-        //
-        //     intro_badge: "📍 لندن • ✨ ٤ جلسات • 🎟️ مقاعد محدودة",
-        //     intro_heading: "مرحباً بكم في الفعالية — تجربة حديثة وبسيطة",
-        //     intro_paragraph:
-        //         "هذا نص تمهيدي مؤقت. استخدم هذه المساحة لشرح ماهية الفعالية، ولمن هي موجهة، وما الذي سيحصل عليه الحضور. التصميم خفيف وناعم ومريح للعين.",
-        //     intro_links:
-        //         `الانتقال إلى الفعاليات:
-        //    <a href="#event-1">الفعالية الأولى</a> - السبت ١٠:٠٠ •
-        //    <a href="#event-2">الفعالية الثانية</a> - السبت ١٢:٠٠ •
-        //    <a href="#event-3">الفعالية الثالثة</a> - السبت ١٥:٠٠ •
-        //    <a href="#event-4">الفعالية الرابعة</a> - السبت ١٨:٠٠`,
-        //     intro_overlay_title: "صور جميلة + تنظيم واضح",
-        //     intro_overlay_subtitle: "استبدل هذه الصورة بصورة فعالية خاصة بك",
-        //
-        //     events_title: "الفعاليات",
-        //     events_subtitle:
-        //         "أربع قوائم منسدلة بنفس النمط. اضغط على العنوان لعرض التفاصيل مع النص والصورة.",
-        //
-        //     e1_title: "الفعالية الأولى — الجلسة الافتتاحية",
-        //     e1_sub: "السبت • ١٠:٠٠–١١:٣٠ • القاعة الرئيسية",
-        //     e1_p1:
-        //         "تفاصيل مؤقتة: صف جدول الأعمال والمتحدثين وما الذي يجب أن يتوقعه الحضور، وأي ملاحظات مهمة (اللباس، وقت الوصول، إلخ).",
-        //     e1_p2:
-        //         "يمكنك أيضاً إضافة نقاط مختصرة لأهم المخرجات. اجعلها سهلة القراءة.",
-        //
-        //     e2_title: "الفعالية الثانية — ورشة عمل",
-        //     e2_sub: "السبت • ١٢:٠٠–١٣:٣٠ • قاعة الورش",
-        //     e2_p1:
-        //         "تفاصيل مؤقتة: اشرح ما الذي سيقوم به المشاركون في الورشة، وما الذي يجب إحضاره، وهل هي مناسبة للمبتدئين.",
-        //     e2_p2:
-        //         "أضف مخرجات واضحة: مهارات، قوالب، أو أنشطة تطبيقية.",
-        //
-        //     e3_title: "الفعالية الثالثة — حلقة نقاش",
-        //     e3_sub: "السبت • ١٥:٠٠–١٦:١٥ • القاعة الرئيسية",
-        //     e3_p1:
-        //         "تفاصيل مؤقتة: عرّف موضوع النقاش وأنواع المشاركين، وما الأسئلة التي سيتم تناولها.",
-        //     e3_p2:
-        //         "اذكر إن كان هناك مشاركة من الجمهور وكيف يمكنهم التفاعل.",
-        //
-        //     e4_title: "الفعالية الرابعة — تواصل وختام",
-        //     e4_sub: "السبت • ١٨:٠٠–٢٠:٠٠ • الصالة",
-        //     e4_p1:
-        //         "تفاصيل مؤقتة: صف طريقة التواصل (حر/سريع/طاولات موضوعية)، والضيافة وأي إعلانات ختامية.",
-        //     e4_p2:
-        //         "أضف ملاحظات مفيدة مثل: إحضار بطاقات عمل أو مشاركة رابط متابعة بعد الفعالية.",
-        //
-        //     chip_motivation: "تواصل",
-        //     chip_stress_management: "محاضرات",
-        //     chip_brain_based_learning: "أسئلة وأجوبة",
-        //     chip_brain_development: "تطبيقي",
-        //     chip_parenting_practices: "مجموعات صغيرة",
-        //     chip_neural_growth: "موارد",
-        //     chip_dementia_awareness: "نقاش",
-        //     chip_cognitive_stimulation: "حوار",
-        //     chip_healthy_ageing: "الجمهور",
-        //     chip_reward_pathways: "اجتماعي",
-        //     chip_neuroplasticity: "ضيافة",
-        //     chip_rehabilition_science: "ختام",
-        //
-        //     reg_title: "التسجيل",
-        //     reg_subtitle: "اضغط على الزر للتسجيل عبر نموذج Google.",
-        //     reg_button: "سجّل الآن →",
-        //     reg_fineprint:
-        //         "* ملاحظة مؤقتة: بعد التسجيل ستصلك رسالة تأكيد عبر البريد الإلكتروني مع المزيد من التفاصيل.",
-        //
-        //     sponsor_title: "الرعاة",
-        //     sponsor_subtitle:
-        //         "أضف شعارات وأسماء الشركات الداعمة هنا. استبدل العناصر المؤقتة بعلامات الرعاة الحقيقية.",
-        //     sp1: "ألفا بارتنرز",
-        //     sp2: "بلو ويف",
-        //     sp3: "كلاود ناين",
-        //     sp4: "داون إنوفيشنز",
-        // }
     };
 
     function setLang(lang){
