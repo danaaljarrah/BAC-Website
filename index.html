@@ -790,7 +790,7 @@
             </div>
 
             <a class="btn btn-primary"
-               href="https://forms.gle/YOUR_FORM_LINK"
+               href="https://docs.google.com/forms/d/e/1FAIpQLSfrndwcxlnMK9QdiQiA-K4IPUBQgkUVKPwSITnWMSAcy2BDKg/viewform?usp=dialog"
                target="_blank"
                rel="noopener noreferrer"
                data-i18n="reg_button"
@@ -853,38 +853,36 @@
 
     const dict = {
         en: {
-            site_title: "Event Landing Page",
+            site_title: "Brain Awareness Campaign",
             site_subtitle: "Smooth, mobile-friendly • English / العربية",
 
             intro_badge: "📍 Amman • ✨ 4 Workshops • 🎟️ Limited Seats",
             intro_heading: "Brain Awareness Campaign",
-            // intro_paragraph: "",
             intro_paragraph:
                 `<p>
-      <strong>Brain Awareness Campaign 2026</strong> is a four-day community campaign designed
-      to make neuroscience practical, accessible and relevant to everyday life in Jordan.
-    </p>
+                  <strong>Brain Awareness Campaign 2026</strong> is a four-day community campaign designed
+                  to make neuroscience practical, accessible and relevant to everyday life in Jordan.
+                </p>
 
-    <p>
-      The campaign aims to increase understanding of how the brain learns, develops,
-      adapts and recovers, and how this knowledge can improve education,
-      parenting, healthy ageing and addiction recovery.
-    </p>
+                <p>
+                  The campaign aims to increase understanding of how the brain learns, develops,
+                  adapts and recovers, and how this knowledge can improve education,
+                  parenting, healthy ageing and addiction recovery.
+                </p>
 
-    <p><strong>Each day focuses on a different group within the community:</strong></p>
+                <p><strong>Each day focuses on a different group within the community:</strong></p>
 
-    <ul class="event-bullets">
-      <li><strong>Students:</strong> Brain-based techniques to improve motivation, focus and stress management.</li>
-      <li><strong>Parents:</strong> How daily interactions shape a child’s brain development.</li>
-      <li><strong>Elderly individuals and carers:</strong> Practical tools to support cognitive health and dementia awareness.</li>
-      <li><strong>Individuals in addiction recovery:</strong> How substances affect brain circuitry and neuroscience-informed rehabilitation strategies.</li>
-    </ul>
+                <ul class="event-bullets">
+                  <li><strong>Students:</strong> Brain-based techniques to improve motivation, focus and stress management.</li>
+                  <li><strong>Parents:</strong> How daily interactions shape a child’s brain development.</li>
+                  <li><strong>Elderly individuals and carers:</strong> Practical tools to support cognitive health and dementia awareness.</li>
+                  <li><strong>Individuals in addiction recovery:</strong> How substances affect brain circuitry and neuroscience-informed rehabilitation strategies.</li>
+                </ul>
 
-    <p>
-      The goal is to reduce stigma, increase awareness and build a more brain-informed society — one that uses science to improve wellbeing
-      at every stage of life.
-    </p>
-    `,
+                <p>
+                  The goal is to reduce stigma, increase awareness and build a more brain-informed society — one that uses science to improve wellbeing
+                  at every stage of life.
+                </p>`,
 
             intro_links:
                 `Jump to events:
@@ -961,7 +959,29 @@
 
             intro_badge: "📍 عمّان • ✨ 4 ورش عمل • 🎟️ مقاعد محدودة",
             intro_heading: "حملة التوعية بالدماغ",
-            intro_paragraph: "",
+            intro_paragraph: `
+                <p>
+                  <strong>حملة التوعية بالدماغ 2026</strong> هي حملة مجتمعية تمتد لأربعة أيام، تهدف إلى جعل علم الأعصاب عملياً وسهل الفهم ومرتبطاً بالحياة اليومية في الأردن.
+                </p>
+
+                <p>
+                  تهدف الحملة إلى زيادة فهم كيفية تعلّم الدماغ وتطوّره وتكيّفه وتعافيه، وكيف يمكن لهذه المعرفة أن تسهم في تحسين التعليم، وأساليب التربية، والشيخوخة الصحية، والتعافي من الإدمان.
+                </p>
+
+                <p><strong>يركّز كل يوم على فئة مختلفة من المجتمع:</strong></p>
+
+                <ul class="event-bullets">
+                  <li><strong>الطلبة:</strong> تقنيات قائمة على علم الدماغ لتحسين الدافعية والتركيز وإدارة التوتر.</li>
+                  <li><strong>الآباء والأمهات:</strong> كيف تشكّل التفاعلات اليومية نمو دماغ الطفل.</li>
+                  <li><strong>كبار السن ومقدّمو الرعاية:</strong> أدوات عملية لدعم الصحة المعرفية وزيادة الوعي بالخرف.</li>
+                  <li><strong>الأفراد في مرحلة التعافي من الإدمان:</strong> كيف تؤثر المواد في دوائر الدماغ واستراتيجيات إعادة التأهيل المبنية على علم الأعصاب.</li>
+                </ul>
+
+                <p>
+                  وتهدف الحملة إلى تقليل الوصمة المرتبطة بالصحة النفسية والشيخوخة والإدمان، وزيادة الوعي، وبناء مجتمع أكثر فهماً للدماغ — مجتمع يستخدم المعرفة العلمية لتحسين جودة الحياة في جميع مراحلها.
+                </p>
+                `,
+
             intro_links:
                 `انتقل إلى الفعاليات:
            <a href="#event-1">إتقان العقل</a> - الإثنين 16 11:11 •
@@ -1124,7 +1144,11 @@
             if (!val) return;
             // Some fields include links -> use innerHTML
             if (key === 'intro_links') el.innerHTML = val;
-            else el.textContent = val;
+            else {
+                if (key === "intro_paragraph") el.innerHTML = val;
+                else el.textContent = val;
+            }
+
         });
     }
 
