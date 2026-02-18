@@ -191,8 +191,8 @@
         /* ============== Introduction layout ============== */
         .intro-grid{
             display:grid;
-            grid-template-columns: 1.05fr 0.95fr;
-            gap: 18px;
+            grid-template-columns: 1fr;
+            gap: 24px;
             align-items: stretch;
         }
         .intro-copy .badge{
@@ -517,6 +517,37 @@
             padding: 4px;
         }
 
+        .sponsor-strip {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 12px 0;
+            margin-bottom: 10px;
+        }
+
+        .sponsor-strip-inner {
+            width: min(1100px, calc(100% - 40px));
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .sponsor-strip img {
+            height: 85px;
+            object-fit: contain;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .sponsor-strip img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+
 
         .sponsor:hover{ transform: translateY(-2px); box-shadow: 0 16px 44px rgba(15,55,120,0.12); }
         .slogo{
@@ -578,7 +609,7 @@
     <div class="topbar-inner">
         <div class="brand">
             <div class="logo" aria-label="Logo">
-                <img class="baclogo-img" src="images/Brain-Awareness-Week-logo-color-rgb.png" alt="BAC logo">
+                <img class="baclogo-img" src="images/organiserLogo.jpg" alt="organiser logo">
 <!--                <span>Brain Awareness Campaign</span>-->
             </div>
             <div class="brand-title">
@@ -593,6 +624,19 @@
         </div>
     </div>
 </header>
+
+<!-- Sponsor Strip -->
+<section class="sponsor-strip">
+    <div class="sponsor-strip-inner">
+
+        <img src="images/organiserLogo.jpg" alt="">
+        <img src="images/IBRO_logo_main_2022.png" alt="IBRO">
+        <img src="images/dana-foundation.png" alt="Dana Foundation">
+        <img src="images/Brain-Awareness-Week-logo-color-rgb.png" alt="BAC">
+
+    </div>
+</section>
+
 
 <main class="wrap">
 
@@ -615,16 +659,6 @@
                 </div>
             </div>
 
-            <div class="intro-media">
-                <img
-                        src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80"
-                        alt="Event image placeholder"
-                />
-                <div class="intro-overlay">
-                    <strong data-i18n="intro_overlay_title">Beautiful visuals + clear structure</strong>
-                    <span data-i18n="intro_overlay_subtitle">Replace this image with your own event photo</span>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -824,13 +858,13 @@
         <div class="sponsor-grid">
             <div class="sponsor">
                 <img class="ibro-img"
-                     src="https://upload.wikimedia.org/wikipedia/commons/b/b0/IBRO_logo_main_2022.png"
+                     src="images/IBRO_logo_main_2022.png"
                      alt="IBRO logo">
                 <span data-i18n="sp1">International Brain Research Organisation</span>
             </div>
             <div class="sponsor">
                 <img class="dana-img"
-                     src="https://images.seeklogo.com/logo-png/53/1/dana-foundation-logo-png_seeklogo-530578.png"
+                     src="images/dana-foundation.png"
                      alt="Dana logo">
                 <span data-i18n="sp2">Dana Foundation</span>
             </div>
@@ -858,7 +892,7 @@
     const dict = {
         en: {
             site_title: "Brain Awareness Campaign",
-            site_subtitle: "Smooth, mobile-friendly • English / العربية",
+            site_subtitle: "English / العربية",
 
             intro_badge: "📍 Amman • ✨ 4 Workshops • 🎟️ Limited Seats",
             intro_heading: "Brain Awareness Campaign",
@@ -890,10 +924,10 @@
 
             intro_links:
                 `Jump to events:
-           <a href="#event-1">Mind Mastery</a> - Mon 16th 11:11 •
-           <a href="#event-2">Nurturing Minds</a> - Tues 17th 11:11 •
-           <a href="#event-3">Memory Matters</a> - Wed 18th 11:11 •
-           <a href="#event-4">Rewiring Recovery</a> - Thur 19th 11:11`,
+           <a href="#event-1">Mind Mastery</a> - Mon 16th 10:00am •
+           <a href="#event-2">Nurturing Minds</a> - Tues 17th 09:30am •
+           <a href="#event-3">Memory Matters</a> - Wed 18th 10:00am •
+           <a href="#event-4">Rewiring Recovery</a> - Thur 19th 10:00am`,
             intro_overlay_title: "Beautiful visuals + clear structure",
             intro_overlay_subtitle: "Replace this image with your own event photo",
 
@@ -902,28 +936,28 @@
                 "Click an event to learn more!",
 
             e1_title: "Mind Mastery - Student Workshop",
-            e1_sub: "Monday 16th March • 11:11–11:11 • Iskan Al-Jama'a Secondary School",
+            e1_sub: "Monday 16th March • 10:00am • Umm Al-Sumaq Al Shamali Secondary School",
             e1_p1:
                 "This interactive session introduces secondary school students to the neuroscience of motivation, focus and stress. Through the “Mind Mastery” programme, students will learn how the brain’s reward system influences achievement, time management and academic performance.",
             e1_p2:
                 "Students can expect practical tools they can immediately apply to school life, along with activities that build self-awareness and resilience. The session aims to strengthen confidence, reduce academic stress and promote brain-based learning.",
 
             e2_title: "Nurturing Minds - Parenting Workshop",
-            e2_sub: "Tuesday 17th March • 11:11–11:11 • Al-Andalus Building 273",
+            e2_sub: "Tuesday 17th March • 09:30am • Al-Andalus Building 273",
             e2_p1:
                 "This seminar and hands-on workshop explores how early experiences shape a child’s brain development. Parents will learn how safe play, positive interaction and daily habits influence neural connections, emotional regulation and long-term cognitive growth.",
             e2_p2:
                 "Using three-dimensional brain and neuron models, the session makes complex neuroscience simple and practical. Parents can expect clear guidance on how to support healthy brain development at home and avoid common mistakes that may unintentionally hinder growth.",
 
             e3_title: "Memory Matters - Elderly Workshop",
-            e3_sub: "Wednesday 18th March • 11:11–11:11 • Al-Aseera Al-Bayda'a for Elderly Care",
+            e3_sub: "Wednesday 18th March • 10:00am • Al-Aseera Al-Bayda'a for Elderly Care",
             e3_p1:
                 "This event focuses on ageing, dementia awareness and practical ways to keep the brain active later in life. Elderly individuals and carers will learn how movement, mental stimulation and social engagement support cognitive function and overall wellbeing.",
             e3_p2:
                 "Through interactive activities such as puzzles, creative exercises and brain games, participants will experience how stimulation activates brain cells. Carers will also gain insight into understanding dementia-related changes and supporting elderly individuals with empathy and evidence-based strategies.",
 
             e4_title: "Rewiring Recovery - Addiction Workshop",
-            e4_sub: "Thursday 19th March • 11:11–11:11 • National Addiction Rehabilitation Centre",
+            e4_sub: "Thursday 19th March • 10:00am • National Addiction Rehabilitation Centre",
             e4_p1:
                 "This workshop explores the neuroscience of addiction, explaining how substances alter reward pathways, neural circuitry and brain structure. Participants will gain a clearer understanding of why addiction is a brain-based condition.",
             e4_p2:
@@ -950,14 +984,14 @@
 
             sponsor_title: "Sponsors",
             sponsor_subtitle:
-                "This Campaign was generously sponsored by the International brain Research Organisation and Dana Foundation ",
+                "This Campaign was generously sponsored by the International Brain Research Organisation and Dana Foundation ",
             sp1: "International Brain Research Organisation",
             sp2: "Dana Foundation"
         },
 
         ar: {
             site_title: "الصفحة الرئيسية للفعالية",
-            site_subtitle: "تجربة سلسة ومتوافقة مع الجوال • English / العربية",
+            site_subtitle: "English / العربية",
 
             intro_badge: "📍 عمّان • ✨ 4 ورش عمل • 🎟️ مقاعد محدودة",
             intro_heading: "حملة التوعية بالدماغ",
